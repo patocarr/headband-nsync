@@ -48,9 +48,10 @@ void led_setup() {
 
 void led_loop(uint8_t palette_sel)
 {
-    ChangePalettePeriodically(palette_sel);
+    uint8_t palette_chg = ChangePalettePeriodically(palette_sel);
     
-    static uint8_t startIndex = 0;
+    static uint8_t startIndex;
+    if (palette_chg == 1) startIndex = 0;
     startIndex = startIndex + 1; /* motion speed */
     
     FillLEDsFromPaletteColors( startIndex);
@@ -78,9 +79,9 @@ void FillLEDsFromPaletteColors( uint8_t colorIndex)
 // Additionally, you can manually define your own color palettes, or you can write
 // code that creates color palettes on the fly.  All are shown here.
 
-void ChangePalettePeriodically(uint8_t palette_sel)
+uint8_t ChangePalettePeriodically(uint8_t palette_sel)
 {
-    uint8_t secondHand;
+    uint8_t secondHand, return_val = 0;
     if (palette_sel == 255) {
       secondHand = (millis() / 1000) % 60;
     } else {
@@ -101,7 +102,9 @@ void ChangePalettePeriodically(uint8_t palette_sel)
         if( secondHand == 45)  { currentPalette = PartyColors_p;           currentBlending = LINEARBLEND; }
         if( secondHand == 50)  { currentPalette = myRedWhiteBluePalette_p; currentBlending = NOBLEND;  }
         if( secondHand == 55)  { currentPalette = myRedWhiteBluePalette_p; currentBlending = LINEARBLEND; }
+        return_val = 1;
     }
+    return (return_val);
 }
 
 // This function fills the palette with totally random colors.

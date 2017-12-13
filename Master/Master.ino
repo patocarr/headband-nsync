@@ -232,7 +232,7 @@ void setup() {
 }
 
 void loop() {
-  uint8_t palette_sel = 0;
+  uint8_t palette_sel = 255;
 
   // In the loop we scan for slave
   if (scan_delay++ == 0) {
@@ -245,7 +245,8 @@ void loop() {
 
   // If Slave is found, it would be populate in `slave` variable
   // We will check if `slave` is defined and then we proceed further
-  if (SlaveCnt > 0 && (scan_delay % 50) == 0) { // check if slave channel is defined
+  //if (SlaveCnt > 0 && (scan_delay % 50) == 0) { // check if slave channel is defined
+  if (SlaveCnt > 0 && palette_sel < 255) { // check if slave channel is defined
     // `slave` is defined
     // Add slave as peer if it has not been added already
     manageSlave();

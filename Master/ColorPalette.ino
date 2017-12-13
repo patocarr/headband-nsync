@@ -50,7 +50,8 @@ uint8_t led_loop()
 {
     uint8_t palette_sel = ChangePalettePeriodically();
     
-    static uint8_t startIndex = 0;
+    static uint8_t startIndex;
+    if (palette_sel < 255) startIndex = 0;
     startIndex = startIndex + 1; /* motion speed */
     
     FillLEDsFromPaletteColors( startIndex);
@@ -84,6 +85,7 @@ uint8_t ChangePalettePeriodically()
 {
     uint8_t secondHand = (millis() / 1000) % 60;
     static uint8_t lastSecond = 99;
+    uint8_t return_val = 255;
     
     if( lastSecond != secondHand) {
         lastSecond = secondHand;
@@ -98,8 +100,9 @@ uint8_t ChangePalettePeriodically()
         if( secondHand == 45)  { currentPalette = PartyColors_p;           currentBlending = LINEARBLEND; }
         if( secondHand == 50)  { currentPalette = myRedWhiteBluePalette_p; currentBlending = NOBLEND;  }
         if( secondHand == 55)  { currentPalette = myRedWhiteBluePalette_p; currentBlending = LINEARBLEND; }
+        if ((secondHand % 5) == 0) return_val = secondHand;
     }
-    return (secondHand);
+    return (return_val);
 }
 
 // This function fills the palette with totally random colors.
