@@ -102,7 +102,7 @@ uint8_t ChangePalettePeriodically(uint8_t palette_sel)
         if( secondHand == 45)  { currentPalette = PartyColors_p;           currentBlending = LINEARBLEND; }
         if( secondHand == 50)  { currentPalette = myRedWhiteBluePalette_p; currentBlending = NOBLEND;  }
         if( secondHand == 55)  { currentPalette = myRedWhiteBluePalette_p; currentBlending = LINEARBLEND; }
-        return_val = 1;
+        if (palette_sel != 255) return_val = 1;
     }
     return (return_val);
 }
